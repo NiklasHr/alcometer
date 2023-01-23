@@ -7,4 +7,8 @@ export default StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
       },
+      fixToText: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+      },
 });
