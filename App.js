@@ -10,22 +10,29 @@ export default function App() {
   const [weight, setWeight] = useState(0);
   const [bottles, setBottles] = useState(0);
   const [hours, setHours] = useState(0);
-  const [result, setResult] = useState('');
+  const [result, setResult] = useState(0);
 
-  const [radioVal, setRadioVal] = useState('');
-  const [on, setOn] = useState(false)
-  /*const [gender, setGender] = useState("mies");*/
+  const [radioVal, setRadioVal] = useState('male');
+  const [on, setOn] = useState(false);
 
   function calculate() {
-    /* let result = 0; */
     let liters = bottles * 0.33;
     let grams = liters * 8 * 4.5;
     let burning = weight / 10;
+    let firstResult = 0;
 
-    if (hours >= 0 && bottles >= 0 && weight >=0) {
-      setResult((grams - (burning * hours)) / (weight * 0.7));
-    } else if (gender === "nainen" && hours >= 0 && bottles >= 0 && weight >=0) {
-      setResult((grams - (burning * hours)) / (weight * 0.6));
+    //Calculations
+    if (radioVal === "male" && hours >= 0 && bottles >= 0 && weight >=0) {
+      firstResult=((grams - (burning * hours)) / (weight * 0.7));
+    } else if (radioVal === "female" && hours >= 0 && bottles >= 0 && weight >=0) {
+      firstResult=((grams - (burning * hours)) / (weight * 0.6));
+    } else {
+      firstResult=(0);
+    }
+
+    //Setting result with separate else if function to avoid negative values
+    if (firstResult >= 0) {
+      setResult(Math.round(firstResult * 100) / 100);
     } else {
       setResult(0);
     }
@@ -41,17 +48,16 @@ export default function App() {
       <View style={stylesLight.container}>
         <Text variant='headlineLarge'>Alcometer</Text>
 
-        <TextInput mode='outlined' label='Weight' style={stylesLight.textInput} onChangeText={(t) => setWeight(t)}/>
+        <TextInput mode='outlined' label='Weight' style={stylesLight.textInput} onChangeText={(w) => setWeight(w)}/>
 
         <Text>Bottles</Text>
           <View style={stylesLight.fixToText}>
-            <NumericInput onChange={() => setBottles(bottles)}/>
+            <NumericInput onChange={(b) => setBottles(b)}/>
         </View>
-          
           
         <Text>Hours</Text>
           <View style={stylesLight.fixToText}>
-          <NumericInput onChange={() => setHours(hours)}/>
+          <NumericInput onChange={(h) => setHours(h)}/>
         </View>
 
         <RadioButton.Group onValueChange={newVal => setRadioVal(newVal)} value={radioVal}>
