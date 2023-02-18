@@ -1,7 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, StyleSheet, View, Switch } from 'react-native';
 import { useState } from "react";
-import Styles from './styles/Styles.js';
+import { MD3LightTheme, Provider, RadioButton, TextInput, Text } from 'react-native-paper';
+import NumericInput from 'react-native-numeric-input';
+import {stylesLight, stylesDark} from './styles/Styles.js';
 
 export default function App() {
 
@@ -9,6 +11,9 @@ export default function App() {
   const [bottles, setBottles] = useState(0);
   const [hours, setHours] = useState(0);
   const [result, setResult] = useState('');
+
+  const [radioVal, setRadioVal] = useState('');
+  const [on, setOn] = useState(false)
   /*const [gender, setGender] = useState("mies");*/
 
   function calculate() {
@@ -26,39 +31,42 @@ export default function App() {
     }
   }
 
+  const radioButtons = [
+    {val: 'male'},
+    {val: 'female'}
+  ];
+
   return (
-    <View style={Styles.container}>
-      <Text>Alcometer</Text>
+    <Provider theme={stylesLight}>
+      <View style={stylesLight.container}>
+        <Text variant='headlineLarge'>Alcometer</Text>
 
-      <Text>Weight</Text>
-      <TextInput
-        style={{borderWidth:1, width:200}}
-        onChangeText={(t) => setWeight(t)}
-      />
+        <TextInput mode='outlined' label='Weight' style={stylesLight.textInput} onChangeText={(t) => setWeight(t)}/>
 
-    <Text>Bottles</Text>
-    <View style={Styles.fixToText}>
-      <Button title='-' onPress={() => setBottles(Number(bottles) - 1)} />
-        <Text>{bottles}</Text>
-      <Text/>
-      <Button title='+' onPress={() => setBottles(Number(bottles) + 1)} />
-    </View>
-      
-      
-    <Text>Hours</Text>
-    <View style={Styles.fixToText}>
-      <Button title='-' onPress={() => setHours(hours - 1)} />
-        <Text>{hours}</Text>
-      <Text/>
-      <Button title='+' onPress={() => setHours(hours + 1)} />
-    </View>
+        <Text>Bottles</Text>
+          <View style={stylesLight.fixToText}>
+            <NumericInput onChange={() => setBottles(bottles)}/>
+        </View>
+          
+          
+        <Text>Hours</Text>
+          <View style={stylesLight.fixToText}>
+          <NumericInput onChange={() => setHours(hours)}/>
+        </View>
 
-      <Text>Male</Text>
-      <Text>Female</Text>
+        <RadioButton.Group onValueChange={newVal => setRadioVal(newVal)} value={radioVal}>
+          {radioButtons.map(radioButtons => 
+            <View style={stylesLight.radioButton} key={radioButtons.val}>
+              <RadioButton value={radioButtons.val}/>
+              <Text>{radioButtons.val}</Text>
+            </View>
+          )}
+        </RadioButton.Group>
 
-      <Button title='calculate male' onPress={calculate}/>
-      <Text>{result}</Text>
-      <StatusBar style="auto" />
-    </View>
+        <Button title='Calculate' onPress={calculate}/>
+        <Text>{result}</Text>
+        <StatusBar style="auto" />
+      </View>
+    </Provider>
   );
 }

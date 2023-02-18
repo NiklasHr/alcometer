@@ -1,14 +1,42 @@
 import { StyleSheet } from "react-native";
+import { MD3LightTheme, MD3DarkTheme } from "react-native-paper";
 
-export default StyleSheet.create({
+
+const stylesLight = StyleSheet.create({
+    ...MD3LightTheme,
     container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
+      flex: 1,
+      justifyContent: 'center',
+      margin:10
+    },
+      radioButton: {
+        flexDirection:'row',
+        alignItems:'center'
       },
-      fixToText: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+      title: {
+
       },
+      textInput: {
+      }
+})
+
+const stylesDark = StyleSheet.create({
+  ...MD3DarkTheme,
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    margin:10
+  },
+    radioButton: {
+      flexDirection:'row',
+      alignItems:'center'
+    },
+    title: {
+
+    },
+    textInput: {
+    }
 });
+;
+
+export { stylesLight, stylesDark }
